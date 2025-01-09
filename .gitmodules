@@ -1,6 +1,6 @@
 [submodule "bluespec/Toooba"]
 	path = bluespec/Toooba
-	url = https://github.com/CTSRD-CHERI/Toooba.git
+	url = https://github.com/TimMcGilly/Toooba.git
 	branch = CHERI
 [submodule "bluespec/DE10Pro-bsv-shell"]
 	path = bluespec/DE10Pro-bsv-shell
