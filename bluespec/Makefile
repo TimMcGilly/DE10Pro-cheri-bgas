@@ -111,6 +111,7 @@ TOPFILE_BO = $(BDIR)/$(patsubst %.bsv,%.bo,$(notdir $(TOPFILE)))
 
 BSCFLAGS += -bdir $(BDIR)
 BSCFLAGS += +RTS -K128M -RTS
+BSCFLAGS += -parallel-sim-link 8
 #BSCFLAGS += -show-schedule
 #BSCFLAGS += -sched-dot
 #BSCFLAGS += -show-range-conflict
