@@ -29,6 +29,10 @@
 BSC = bsc
 BLUESPECDIR ?= $(shell which $(BSC) | xargs dirname | xargs dirname)/lib
 
+export CC = ccache gcc
+export CXX = ccache c++
+BSC_C_FLAGS += -no-show-version -no-show-timestamps
+
 NB_SYSTEMS ?= 1
 CORE_NUM ?= 1
 
@@ -111,7 +115,7 @@ TOPFILE_BO = $(BDIR)/$(patsubst %.bsv,%.bo,$(notdir $(TOPFILE)))
 
 BSCFLAGS += -bdir $(BDIR)
 BSCFLAGS += +RTS -K128M -RTS
-BSCFLAGS += -parallel-sim-link 8
+BSCFLAGS += -parallel-sim-link 20
 #BSCFLAGS += -show-schedule
 #BSCFLAGS += -sched-dot
 #BSCFLAGS += -show-range-conflict
