@@ -41,6 +41,7 @@ import Connectable :: *;
 import CHERI_BGAS_Top :: *;
 import BERT :: *;
 import DE10Pro_bsv_shell :: *;
+import AXI4_DelayShim :: *;
 
 // Concrete parameters definitions
 // -------------------------------
@@ -257,15 +258,49 @@ module mkCHERI_BGAS_Top_Sim (Empty);
   mkConnection ( cheri_bgas_top.axm_f2h
                , debugAXI4_Slave (f2h_sub, $format ("f2h_sub")) );
   // DDR
-  mkConnection ( cheri_bgas_top.axm_ddrb
+
+  // Add artifical latency
+  Bit#(16) defaultLatency = 200;
+  NumProxy#(256) depthProxy = error("Do not look inside proxy");
+  
+  AXI4_Shim#( `DRAM_ID, `DRAM_ADDR, `DRAM_DATA
+            , `DRAM_AWUSER, `DRAM_WUSER, `DRAM_BUSER
+            , `DRAM_ARUSER, `DRAM_RUSER)
+    ddrb_delay1 <- mkAXI4_DelayShim(depthProxy, defaultLatency);
+
+  AXI4_Shim#( `DRAM_ID, `DRAM_ADDR, `DRAM_DATA
+            , `DRAM_AWUSER, `DRAM_WUSER, `DRAM_BUSER
+            , `DRAM_ARUSER, `DRAM_RUSER)
+    ddrc_delay <- mkAXI4_DelayShim(depthProxy, defaultLatency);
+
+  AXI4_Shim#( `DRAM_ID, `DRAM_ADDR, `DRAM_DATA
+            , `DRAM_AWUSER, `DRAM_WUSER, `DRAM_BUSER
+            , `DRAM_ARUSER, `DRAM_RUSER)
+    ddrd_delay <- mkAXI4_DelayShim(depthProxy, defaultLatency);
+
+  mkConnection (cheri_bgas_top.axm_ddrb, ddrb_delay1.slave);
+  mkConnection ( ddrb_delay1.master
                , debugAXI4_Slave (fakeDDRB, $format ("ddrb")));
                //, fakeDDRB );
-  mkConnection ( cheri_bgas_top.axm_ddrc
+  mkConnection ( cheri_bgas_top.axm_ddrc, ddrc_delay.slave);
+  mkConnection ( ddrc_delay.master
                , debugAXI4_Slave (fakeDDRC, $format ("ddrc")));
                //, fakeDDRC );
-  mkConnection ( cheri_bgas_top.axm_ddrd
+  mkConnection ( cheri_bgas_top.axm_ddrd, ddrd_delay.slave);
+  mkConnection ( ddrd_delay.master
                , debugAXI4_Slave (fakeDDRD, $format ("ddrd")));
                //, fakeDDRD );
+  
+  // mkConnection ( cheri_bgas_top.axm_ddrb
+  //              , debugAXI4_Slave (fakeDDRB, $format ("ddrb")));
+  //              //, fakeDDRB );
+  // mkConnection ( cheri_bgas_top.axm_ddrc
+  //              , debugAXI4_Slave (fakeDDRC, $format ("ddrc")));
+  //              //, fakeDDRC );
+  // mkConnection ( cheri_bgas_top.axm_ddrd
+  //              , debugAXI4_Slave (fakeDDRD, $format ("ddrd")));
+  //              //, fakeDDRD );
+
   // global tx/rx
   mkConnection (cheri_bgas_top.tx_east,  sl3wrapper.internalTX_a);
   mkConnection (cheri_bgas_top.tx_north, sl3wrapper.internalTX_b);
