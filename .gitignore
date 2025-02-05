@@ -8,6 +8,7 @@ bluespec/.depends.mk
 bluespec/sim-utils/sim-cheri-bgas
 bluespec/sim-utils/tools
 bluespec/sim-utils/simulations
+bluespec/sim-utils/analyse/.venv
 cheri-bgas-rtl/
 .qsys_edit/
 
