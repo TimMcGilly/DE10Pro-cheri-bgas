@@ -438,6 +438,7 @@ if __name__ == "__main__":
     , help=f"The SIM_RUN_DIR path to the run directory for the simulation")
   parser.add_argument('-v', '--verbose', action='count', default=0
     , help="Increase verbosity level by adding more \"v\".")
+  parser.add_argument("-s", '--simulation-build-dir', type=Path, metavar='SIM_BUILD_DIR)', default=dflt_sim_bin)
 
   # parse command line arguments
   clargs = parser.parse_args()
@@ -453,6 +454,8 @@ if __name__ == "__main__":
     ctxt.logger.setLevel(logging.INFO)
 
   ctxt.sim_dir = test_and_create_dir(clargs.simulation_run_directory)
+  dflt_sim_bin = clargs.simulation_build_dir
+
 
   ctxt.nodes = [ (x, y) for x in range(0, int(clargs.topology[0]))
                         for y in range(0, int(clargs.topology[1])) ]
