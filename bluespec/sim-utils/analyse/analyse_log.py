@@ -359,7 +359,7 @@ def parse_log(input_file, ignore_first_n_instr, ignore_last_n_instr) -> Tuple[Li
         
             if "RVFI Order" in line:
                 instruction_count += 1
-                clock_time = int(line.split()[0].strip(":"))/10
+                clock_time = int(line.split()[0].strip(":"))
                 if instruction_count == ignore_first_n_instr:
                     instruction_start_time = clock_time
                 if instruction_count == ignore_last_n_instr:
