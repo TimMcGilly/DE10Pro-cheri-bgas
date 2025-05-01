@@ -364,6 +364,7 @@ def parse_log(input_file, ignore_first_n_instr, ignore_last_n_instr) -> Tuple[Li
                     instruction_start_time = clock_time
                 if instruction_count == ignore_last_n_instr:
                     instruction_end_time = clock_time
+                    break
 
     print(f"access {len(accesses)} misses {len(access_misses)}")
     print(f"IPC {(ignore_last_n_instr - ignore_first_n_instr)/ (instruction_end_time - instruction_start_time)}")
@@ -377,17 +378,19 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Analyse log from CHERI-BGAS simulation')
 
     parser.add_argument('-i', "--input",)
-    parser.add_argument('-u', "--upperbound")
+    parser.add_argument('-u', "--upperbound", type=int)
 
     args = parser.parse_args()
     input_file_with_prefetcher = Path("/local/scratch-3/tm746/simulations_v2")/"with-prefetcher"/args.input/"sim_0.0"/"sim_stdout"
     input_file_logging_prefetcher = Path("/local/scratch-3/tm746/simulations_v2")/"logging-prefetcher"/args.input/"sim_0.0"/"sim_stdout"
     input_file_without_prefetcher = Path("/local/scratch-3/tm746/simulations_v2")/"without-prefetcher"/args.input/"sim_0.0"/"sim_stdout"
 
-    ipc_with_prefetcher, prefetch_hit_count_with, missess_not_prefetcher_with, prefetch_total_count, prefetch_total_miss_count = parse_log(input_file_with_prefetcher, 100000, 600000)
-    ipc_without_prefetcher, _, missess_not_prefetcher_without, _, _ = parse_log(input_file_without_prefetcher, 100000, 600000)
+    ipc_with_prefetcher, prefetch_hit_count_with, missess_not_prefetcher_with, prefetch_total_count, prefetch_total_miss_count = parse_log(input_file_with_prefetcher, 100000, args.upperbound)
+    ipc_without_prefetcher, _, missess_not_prefetcher_without, _, _ = parse_log(input_file_without_prefetcher, 100000, args.upperbound)
+    ipc_logging_prefetcher, _, _, _, _ = parse_log(input_file_logging_prefetcher, 100000, args.upperbound)
     print(f"IPC with prefetcher {ipc_with_prefetcher}")
     print(f"IPC without prefetcher {ipc_without_prefetcher}")
+    print(f"IPC logging prefetcher {ipc_logging_prefetcher}")
     print(f"Coverage {prefetch_hit_count_with/missess_not_prefetcher_without}")
     print(f"Accuracy {prefetch_hit_count_with/prefetch_total_count}")
     print(f"Accuracy (only prefetch misses) {prefetch_hit_count_with/prefetch_total_miss_count}")

@@ -1,6 +1,6 @@
 #! /bin/bash
 trap "echo; exit" INT
-make bluesim 2>&1 | tee -a build.log;
+make bluesim 2>&1 | tee build.log;
 
 mkdir ~/Dissertation-riga/simulations_v2/$1/$2;
 mkdir ~/Dissertation-riga/simulations_v2/$1/$2/$3;

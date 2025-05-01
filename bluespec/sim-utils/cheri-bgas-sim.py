@@ -364,7 +364,7 @@ def main(ctxt):
   for idx, node_dir, vpi_port, dbg_port in ctxts:
     proc_handles[idx] = {}
     x, y = idx
-    proc_handles[idx]["simulator"] = spawn_simulator(node_dir, x, y)
+    proc_handles[idx]["simulator"] = spawn_simulator(node_dir, x, y, bin = ctxt.sim_bin)
   time.sleep(0.25)
   print('spawning cheri-bgas-devfs')
   for idx, node_dir, vpi_port, dbg_port in ctxts:
@@ -454,7 +454,7 @@ if __name__ == "__main__":
     ctxt.logger.setLevel(logging.INFO)
 
   ctxt.sim_dir = test_and_create_dir(clargs.simulation_run_directory)
-  dflt_sim_bin = clargs.simulation_build_dir
+  ctxt.sim_bin = clargs.simulation_build_dir.resolve()
 
 
   ctxt.nodes = [ (x, y) for x in range(0, int(clargs.topology[0]))
