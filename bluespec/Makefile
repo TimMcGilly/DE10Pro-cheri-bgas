@@ -29,8 +29,8 @@
 BSC = bsc
 BLUESPECDIR ?= $(shell which $(BSC) | xargs dirname | xargs dirname)/lib
 
-export CC = ccache gcc
-export CXX = ccache c++
+export CC = gcc
+export CXX = c++
 BSC_C_FLAGS += -no-show-version -no-show-timestamps
 
 NB_SYSTEMS ?= 1
@@ -43,6 +43,8 @@ else
 #BSCFLAGS += -D CORE_MINI
 CORE_SIZE ?= TINY
 endif
+
+CACHE_SIZE ?= TEST
 
 # If we're running in simulation, tell RISCY_Config to include RVFI debug logs.
 

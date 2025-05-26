@@ -1,0 +1,1 @@
+tmux new-session -d -s tm746-$1 "./run_all_olden_benchmarks.sh $1; sleep 24h"

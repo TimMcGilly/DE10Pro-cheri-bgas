@@ -21,6 +21,7 @@
 #
 # @BERI_LICENSE_HEADER_END@
 #
+export TMPDIR=/local/scratch-3/tm746/tmp/
 
 BSVSRCDIR = $(CURDIR)/bluespec
 BLUESTUFFDIR = $(BSVSRCDIR)/Toooba/libs/BlueStuff

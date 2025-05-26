@@ -4,8 +4,8 @@ if [[ $# -eq 0 ]] ; then
     exit 1
 fi
 
-(./run_sim.sh with-prefetcher $1 $2 $3 $4;)&
-(sleep 20s;
-./run_sim.sh logging-prefetcher $1 $2 $3 $4;)&
-(sleep 40s;
-./run_sim.sh without-prefetcher $1 $2 $3 $4)
+(./run_sim.sh with-prefetcher $1 $2 $3 $4;)
+# (sleep 20s;
+# ./run_sim.sh logging-prefetcher $1 $2 $3 $4;)&
+# (sleep 25s;
+# ./run_sim.sh without-prefetcher $1 $2 $3 $4)
