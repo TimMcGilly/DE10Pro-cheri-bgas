@@ -407,8 +407,8 @@ def parse_log(input_file, ignore_first_n_instr, ignore_last_n_instr) -> Tuple[Li
     in_flight_prefetches = {}
     finished_prefetches = {}
 
-    """#timeliness_late = []
-    #timeliness_complete = []
+    timeliness_late = []
+    timeliness_complete = []
 
     late_addrs = {}
     for i, event in enumerate(total_order_events):
@@ -443,23 +443,22 @@ def parse_log(input_file, ignore_first_n_instr, ignore_last_n_instr) -> Tuple[Li
 
         # else:
         #     raise Exception()
-    #timeliness_late = np.median(np.array(timeliness_late))
-    #timeliness_complete = np.median(np.array(timeliness_complete))
-"""
-    print()
+    timeliness_late = np.median(np.array(timeliness_late))
+    timeliness_complete = np.median(np.array(timeliness_complete))
+
     print(f"Demand access {demand_access} demand misses {demand_misses}")
     print(f"Prefetch access {prefetch_total_count} prefetch causing misses {prefetch_total_miss_count}")
     print(f"IPC {(ignore_last_n_instr - ignore_first_n_instr)/ (instruction_end_time - instruction_start_time)}")
     print(f"Instruction count {instruction_count} num of cycles {instruction_end_time - instruction_start_time}")
     ipc = {(ignore_last_n_instr - ignore_first_n_instr)/ (instruction_end_time - instruction_start_time)}
     print(f"Misses not prefetcher {demand_misses}")
-    #print(f"Timeliness complete {timeliness_complete} timeliness {timeliness_late}")
+    print(f"Timeliness complete {timeliness_complete} timeliness {timeliness_late}")
     print()
     return ipc, prefetch_hit_count, demand_misses, prefetch_total_count, prefetch_total_miss_count, prefetch_late_hit_count
 
 
 if __name__ == "__main__":
-    print("=====================================================================================================================================")
+
     parser = argparse.ArgumentParser(description='Analyse log from CHERI-BGAS simulation')
 
     parser.add_argument('-i', "--input",)
@@ -481,5 +480,3 @@ if __name__ == "__main__":
     print(f"Accuracy {float(prefetch_hit_count_with)/prefetch_total_count}")
     print(f"Accuracy (only prefetch misses) {prefetch_hit_count_with/prefetch_total_miss_count}")
     print(f"Late Accuracy (only prefetch misses + late hits) {(prefetch_hit_count_with+prefetch_late_hit_count)/prefetch_total_miss_count}")
-    print()
-    print("===================================================================================================================================")
