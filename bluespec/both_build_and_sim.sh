@@ -12,7 +12,7 @@ rsync -ahv --exclude bluespec/Toooba/builds/Resources --exclude bluespec/sim-uti
 # rsync -ahv --exclude bluespec/Toooba/builds/Resources --exclude bluespec/sim-utils/analyse/ --exclude bluespec/build/ --exclude bluespec/.depends.mk DE10Pro-cheri-bgas/ DE10Pro-cheri-bgas-logging-prefetcher
 
 (cd ./DE10Pro-cheri-bgas/bluespec;
-./build_and_sim.sh with-prefetcher $1 $2 $3 $4;
+./build_and_sim.sh $1 $2;
 cd ../../;) #&
 
 # (sleep 10s;

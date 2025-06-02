@@ -44,8 +44,6 @@ else
 CORE_SIZE ?= TINY
 endif
 
-CACHE_SIZE ?= TEST
-
 # If we're running in simulation, tell RISCY_Config to include RVFI debug logs.
 
 # $(filter bluesim,$(MAKECMDGOALS)) = return the list of goals in MAKECMDGOALS that are equal to bluesim
